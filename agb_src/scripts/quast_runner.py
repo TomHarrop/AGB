@@ -53,7 +53,7 @@ def parse_alignments(alignments_fpath, json_output_dirpath):
     ms_info = defaultdict(list)
     aligns_by_chroms = defaultdict(list)
     # S1      E1      S2      E2      Reference       Contig  IDY     Ambiguous       Best_group
-    with open(alignments_fpath) as f:
+    with open(alignments_fpath, 'rb') as f:
         for i, line in enumerate(f):
             if i == 0:
                 continue
@@ -101,7 +101,7 @@ def run_quast_analysis(input_fpath, reference_fpath, output_dirpath, json_output
 
     # search for misassemblies and store them for each edge and contig
     misassembled_seqs = defaultdict(list)
-    with open(ms_out_fpath) as f:
+    with open(ms_out_fpath, 'rb') as f:
         seq_id = ''
         for line in f:
             if line.startswith("Extensive misassembly"):

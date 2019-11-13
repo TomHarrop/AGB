@@ -53,7 +53,7 @@ def parse_canu_contigs_info(input_dirpath):
     edges_by_contig = defaultdict(list)
     unitigs_info_fpath = find_file_by_pattern(input_dirpath, "unitigs.bed")
     if input_dirpath and not is_empty_file(unitigs_info_fpath):
-        with open(unitigs_info_fpath) as f:
+        with open(unitigs_info_fpath, 'rb') as f:
             for line in f:
                 fs = line.strip().split()
                 contig, start, end, unitig = fs[:4]
@@ -65,7 +65,7 @@ def parse_canu_contigs_info(input_dirpath):
     if input_dirpath and not is_empty_file(contigs_info_fpath):
         len_col = None
         cov_col = None
-        with open(contigs_info_fpath) as f:
+        with open(contigs_info_fpath, 'rb') as f:
             for i, line in enumerate(f):
                 if i == 0:
                     header = line.strip().split()
@@ -88,7 +88,7 @@ def parse_canu_contigs_info(input_dirpath):
 def parse_flye_contigs_info(input_dirpath):
     contig_info = dict()
     if input_dirpath and not is_empty_file(join(input_dirpath, 'assembly_info.txt')):
-        with open(join(input_dirpath, 'assembly_info.txt')) as f:
+        with open(join(input_dirpath, 'assembly_info.txt'), 'rb') as f:
             for i, line in enumerate(f):
                 if i == 0:
                     header = line.strip().split()
@@ -108,7 +108,7 @@ def parse_spades_contigs_info(input_dirpath, contig_edges):
     node_pattern = '_length_(?P<length>\d+)_cov_(?P<cov>\d+\.?\d*)'
     scaffolds_fpath = get_scaffolds_fpath(SPADES_NAME, input_dirpath)
     if scaffolds_fpath:
-        with open(scaffolds_fpath) as f:
+        with open(scaffolds_fpath, 'rb') as f:
             for line in f:
                 if line.startswith('>'):
                     contig = line.strip()[1:]

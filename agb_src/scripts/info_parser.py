@@ -55,7 +55,7 @@ def parse_canu_assembly_info(input_dirpath, dict_edges):
     unitigs_fpath = find_file_by_pattern(input_dirpath, ".unitigs.bed")
     if is_empty_file(unitigs_fpath):
         print("Warning! Unitigs.bed is not found, information about contigs will not be provided")
-    with open(unitigs_fpath) as f:
+    with open(unitigs_fpath, 'rb') as f:
         for line in f:
             fs = line.strip().split()
             contig, start, end, unitig = fs[:4]
@@ -71,7 +71,7 @@ def parse_flye_assembly_info(input_dirpath, dict_edges):
     info_fpath = join(input_dirpath, "assembly_info.txt")
     if is_empty_file(info_fpath):
         print("Warning! Assembly_info.txt is not found, information about contigs will not be provided")
-    with open(info_fpath) as f:
+    with open(info_fpath, 'rb') as f:
         for i, line in enumerate(f):
             if i == 0:
                 # header = line.strip().split()
@@ -97,7 +97,7 @@ def parse_spades_paths(input_dirpath, dict_edges):
         print("Warning! %s is not found, information about scaffold paths will not be provided" % paths_fpath)
     # NODE_1_length_8242890_cov_19.815448
     # 1893359+,1801779-,1893273-,400678-,1892977+,1869659-,1892443+,272108+,1694470+,1893863+
-    with open(paths_fpath) as f:
+    with open(paths_fpath, 'rb') as f:
         contig = None
         start = 0
         for line in f:

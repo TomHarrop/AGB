@@ -218,7 +218,7 @@ def embed_css_and_scripts(html):
             line = line_tmpl % rel_fpath
             l_tag_formatted = l_tag % rel_fpath
 
-            with open(fpath) as f: contents = f.read()
+            with open(fpath, 'rb') as f: contents = f.read()
             contents = '\n'.join(' ' * 8 + l for l in contents.split('\n'))
             html = html.replace(line, l_tag_formatted + '\n' + contents + '\n' + r_tag)
 

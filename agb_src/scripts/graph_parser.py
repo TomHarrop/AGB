@@ -31,7 +31,7 @@ def parse_abyss_dot(dot_fpath, min_edge_len):
     edge_pattern = '"?(?P<edge_id>\d+)(?P<edge_sign>[\+\-])"? (?P<info>.+)'
     link_pattern = '"?(?P<start>\d+)(?P<start_sign>[\+\-])"? -> "?(?P<end>\d+)(?P<end_sign>[\+\-])"?'
     info_pattern = 'l=(?P<edge_len>\d+) C=(?P<edge_cov>\d+)'
-    with open(dot_fpath) as f:
+    with open(dot_fpath, 'rb') as f:
         for line in f:
             if 'l=' in line:
                 #  "3+" -> "157446-" [d=-45]
@@ -68,7 +68,7 @@ def parse_flye_dot(dot_fpath, min_edge_len):
 
     pattern = '"?(?P<start>\d+)"? -> "?(?P<end>\d+)"? \[(?P<info>.+)]'
     label_pattern = 'id (?P<edge_id>\-*.+) (?P<edge_len>[0-9\.]+)k (?P<coverage>\d+)'
-    with open(dot_fpath) as f:
+    with open(dot_fpath, 'rb') as f:
         for line in f:
             if 'label =' in line:
                 # "7" -> "29" [label = "id 1\l53k 59x", color = "black"] ;
@@ -103,7 +103,7 @@ def parse_flye_dot(dot_fpath, min_edge_len):
 def parse_canu_unitigs_info(input_dirpath, dict_edges):
     tiginfo_fpath = find_file_by_pattern(input_dirpath, ".unitigs.layout.tigInfo")
     if not is_empty_file(tiginfo_fpath):
-        with open(tiginfo_fpath) as f:
+        with open(tiginfo_fpath, 'rb') as f:
             for i, line in enumerate(f):
                 if i == 0:
                     header = line.strip().split()
@@ -136,7 +136,7 @@ def get_edges_from_gfa(gfa_fpath, output_dirpath, min_edge_len):
     if not is_empty_file(gfa_fpath) and not can_reuse(edges_fpath, files_to_check=[gfa_fpath]):
         print("Extracting edge sequences from " + gfa_fpath + "...")
         with open(edges_fpath, "w") as out:
-            with open(gfa_fpath) as f:
+            with open(gfa_fpath, 'rb') as f:
                 for line in f:
                     if line.startswith('S'):
                         fs = line.strip().split()
@@ -152,7 +152,7 @@ def get_edges_from_gfa(gfa_fpath, output_dirpath, min_edge_len):
                             out.write("\n")
     if is_empty_file(edges_fpath) and not is_empty_file(input_edges_fpath):
         with open(edges_fpath, "w") as out:
-            with open(input_edges_fpath) as f:
+            with open(input_edges_fpath, 'rb') as f:
                 for line in f:
                     if line.startswith('>'):
                         seq_name = line.strip().split()[0][1:]
@@ -167,7 +167,7 @@ def format_edges_file(input_fpath, output_dirpath):
         return None
     edges_fpath = join(output_dirpath, "edges.fasta")
     if not can_reuse(edges_fpath, files_to_check=[input_fpath]):
-        with open(input_fpath) as f:
+        with open(input_fpath, 'rb') as f:
             with open(edges_fpath, "w") as out_f:
                 for line in f:
                     if line.startswith('>'):
@@ -213,7 +213,7 @@ def parse_gfa(gfa_fpath, min_edge_len, input_dirpath=None, assembler=None):
     # gfa = gfapy.Gfa.from_file(gfa_fpath, vlevel = 0)
     links = []
     edge_overlaps = defaultdict(dict)
-    with open(gfa_fpath) as f:
+    with open(gfa_fpath, 'rb') as f:
         for line in f:
             record_type = line[0]
             if record_type == 'S':

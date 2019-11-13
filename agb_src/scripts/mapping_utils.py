@@ -34,7 +34,7 @@ def parse_mapping_info(mapping_fpath, json_output_dir, dict_edges):
     edge_mappings = defaultdict(lambda: defaultdict(list))
     edge_lengths = dict()
     chrom_lengths = dict()
-    with open(mapping_fpath) as f:
+    with open(mapping_fpath, 'rb') as f:
         for line in f:
             # contig_1        257261  14      160143  -       chr13   924431  196490  356991  147365  161095  60      tp:A:P  cm:i:14049      s1:i:147260     s2:i:4375       dv:f:0.0066
             fs = line.split()
